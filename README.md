@@ -39,3 +39,14 @@ This project demonstrates wallet management, blockchain payments, and real-time 
 ### 1. Clone Repository
 ```bash
 git clone https://github.com/Payalmodhale/Stellar_Task_first.git
+---
+
+## 🌐 Deployed Contract / Explorer Link
+
+### Stellar Account
+
+GBBISKEADAQQNHNDJSIO3KD2LJNLNZ2NPA6KYVQRKIL7TNZL4ZUWSER3
+
+### Stellar Explorer Link
+
+https://stellar.expert/explorer/testnet/account/GBBISKEADAQQNHNDJSIO3KD2LJNLNZ2NPA6KYVQRKIL7TNZL4ZUWSER3
