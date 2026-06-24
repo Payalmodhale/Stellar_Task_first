@@ -50,3 +50,18 @@ GBBISKEADAQQNHNDJSIO3KD2LJNLNZ2NPA6KYVQRKIL7TNZL4ZUWSER3
 ### Stellar Explorer Link
 
 https://stellar.expert/explorer/testnet/account/GBBISKEADAQQNHNDJSIO3KD2LJNLNZ2NPA6KYVQRKIL7TNZL4ZUWSER3
+
+## Wallet Integration
+
+This project uses Freighter Wallet for Stellar wallet connectivity.
+
+Features:
+
+* Connect Wallet button
+* Retrieve wallet address
+* Freighter permission request
+* Testnet support
+
+Library Used:
+@stellar/freighter-api
+
