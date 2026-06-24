@@ -1,44 +1,18 @@
-import * as StellarSdk from "@stellar/stellar-sdk";
+import { requestAccess, getAddress } from "@stellar/freighter-api";
 
-const server = new StellarSdk.Horizon.Server(
-  "https://horizon-testnet.stellar.org"
-);
-
-export const createAccount = () => {
-  const pair = StellarSdk.Keypair.random();
-  return {
-    publicKey: pair.publicKey(),
-    secret: pair.secret(),
-  };
-};
-
-export const getBalance = async (key) => {
+export const connectWallet = async () => {
   try {
-    const acc = await server.loadAccount(key);
-    return acc.balances;
-  } catch {
-    return [];
+    const access = await requestAccess();
+
+    if (access.error) {
+      alert("Connection Failed");
+      return null;
+    }
+
+    const address = await getAddress();
+    return address.address;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
-};
-
-export const sendXLM = async (secret, destination) => {
-  const kp = StellarSdk.Keypair.fromSecret(secret);
-  const acc = await server.loadAccount(kp.publicKey());
-
-  const tx = new StellarSdk.TransactionBuilder(acc, {
-    fee: StellarSdk.BASE_FEE,
-    networkPassphrase: StellarSdk.Networks.TESTNET,
-  })
-    .addOperation(
-      StellarSdk.Operation.payment({
-        destination,
-        asset: StellarSdk.Asset.native(),
-        amount: "10"
-      })
-    )
-    .setTimeout(30)
-    .build();
-
-  tx.sign(kp);
-  return await server.submitTransaction(tx);
-};
+}
