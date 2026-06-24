@@ -1,57 +1,34 @@
 import { useState } from "react";
-import { createAccount, getBalance, sendXLM } from "./stellar";
+import { connectWallet } from "./stellar";
 
-export default function App() {
-  const [account, setAccount] = useState(null);
-  const [balance, setBalance] = useState([]);
-  const [destination, setDestination] = useState("");
-  const [status, setStatus] = useState("");
+function App() {
+  const [walletAddress, setWalletAddress] = useState("");
 
-  const make = () => setAccount(createAccount());
+  const handleConnectWallet = async () => {
+    const address = await connectWallet();
 
-  const check = async () => {
-    if (!account) return alert("Create wallet first");
-    setBalance(await getBalance(account.publicKey));
-  };
-
-  const send = async () => {
-    if (!destination.trim()) return alert("Enter address");
-    try {
-      setStatus("Sending...");
-      await sendXLM(account.secret, destination);
-      setStatus("Success");
-    } catch {
-      setStatus("Failed");
+    if (address) {
+      alert("✅ Wallet Connected Successfully");
+      setWalletAddress(address);
     }
   };
 
   return (
-    <div className="container">
+    <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>🚀 Stellar Wallet App</h1>
 
-      <button onClick={make}>Create Wallet</button>
-      <button onClick={check}>Check Balance</button>
+      <button onClick={handleConnectWallet}>
+        Connect Wallet
+      </button>
 
-      {account && (
-        <>
-          <p><b>Public Key:</b> {account.publicKey}</p>
-          <p><b>Secret Key:</b> {account.secret}</p>
-        </>
+      {walletAddress && (
+        <div>
+          <h3>Connected Wallet:</h3>
+          <p>{walletAddress}</p>
+        </div>
       )}
-
-      {balance.map((b, i) => (
-        <p key={i}>{b.balance} XLM</p>
-      ))}
-
-      <input
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
-        placeholder="Destination Address"
-      />
-
-      <button onClick={send}>Send XLM</button>
-
-      <p>Status: {status}</p>
     </div>
   );
 }
+
+export default App;
